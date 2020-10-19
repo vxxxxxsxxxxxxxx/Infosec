@@ -1,8 +1,9 @@
 ﻿using System;
 
-public class DatabaseObject()
+public class DatabasePhenomenon()
 {
-	private Dictionary<string, string> phenomenon;
+	public string phenomenonName;
+	private Dictionary<string, string> phenomenons;
 	
 	public Dictionary<string, string> getPhenomenon()
 	{
@@ -25,7 +26,7 @@ public class DatabaseObject()
 	}
 }
 
-public class DatabaseObjects()
+public class DatabasePhenomenons()
 {
-	public DatabaseObject[] databaseObjects;
+	public DatabasePhenomenon[] databasePhenomenons;
 }

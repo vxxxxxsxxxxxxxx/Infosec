@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Class1
+public class User
 {
 	public string fio;
 	public string dr;
