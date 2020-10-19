@@ -1,2 +1,0 @@
-# Infosec
-Modern Proggramming Technologies
