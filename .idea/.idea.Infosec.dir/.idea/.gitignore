@@ -1,0 +1,13 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/modules.xml
+/projectSettingsUpdater.xml
+/.idea.Infosec.iml
+# Datasource local storage ignored files
+/../../../../../../../:\GitHub\vxxxxxsxxxxxxxx\Infosec\.idea\.idea.Infosec.dir\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
