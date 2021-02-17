@@ -23,7 +23,7 @@ namespace Dnevnik
     public partial class CreateEntityWindow : Window
     {
         Database db;
-        public IEnumerable<NewEntityField> Entities;
+        public IEnumerable<NewEntity> Entities;
         public CreateEntityWindow(string userLogin)
         {
             InitializeComponent();
@@ -41,18 +41,18 @@ namespace Dnevnik
             }
         }
 
-        public IEnumerable<NewEntityField> getData()
+        public IEnumerable<NewEntity> getData()
         {
-            Entities = newEntityFieldsGrid.ItemsSource as IEnumerable<NewEntityField>;
+            Entities = newEntityFieldsGrid.ItemsSource as IEnumerable<NewEntity>;
 
             return Entities;
         }
 
         
 
-        public IEnumerable<NewEntityField> getFields()
+        public IEnumerable<string> getFieldsNames()
         {
-            List<NewEntityField> fieldsCollection = getData().ToList();
+            List<NewEntity> fieldsCollection = getData().ToList();
             if (fieldsCollection.Count == 0)
                 WarningLabel.Content = "Заполните таблицу для полей";
             //MessageBox.Show("заполни таблицу  э", "!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -60,8 +60,8 @@ namespace Dnevnik
             {
                 foreach (var field in fieldsCollection)
                 {
-                    if (Validation.IsValid(field.Name))
-                        yield return field;
+                    if (Validation.IsValid(field.FieldName))
+                        yield return field.FieldName;
                     else
                         throw new Exception("Название не валидно. Можно использовать только латинские буквы, цифры и нижнее подчеркивание");
                 }
@@ -70,17 +70,17 @@ namespace Dnevnik
         }
         public IEnumerable<string> getImportantFieldsNames()
         {
-            List<NewEntityField> fieldsCollection = getData().ToList();
+            List<NewEntity> fieldsCollection = getData().ToList();
             
             foreach (var field in fieldsCollection)
             {
                 if (field.Importance)
-                    yield return field.Name;
+                    yield return field.FieldName;
             }
         }
         public bool[] getImportantFields()
         {
-            List<NewEntityField> fieldsCollection = getData().ToList();
+            List<NewEntity> fieldsCollection = getData().ToList();
 
             bool[] mas = new bool[fieldsCollection.Count()];
             int i = 0;
@@ -114,7 +114,7 @@ namespace Dnevnik
                     WarningLabel.Content = "";
                     EntityNameTextBox.BorderThickness = new Thickness(1);
                     EntityNameTextBox.BorderBrush = Brushes.Gray;
-                    if (getFields().Count() != 0)
+                    if (getFieldsNames().Count() != 0)
                     {
                         if  (getImportantFieldsNames().Count() != 0) 
                             CreateNewEntity();
@@ -134,7 +134,7 @@ namespace Dnevnik
         {
             try
             {
-                bool success = db.CreateNewEntity(EntityNameTextBox.Text, getFields());
+                bool success = db.CreateNewEntity(EntityNameTextBox.Text, getFieldsNames(), getImportantFields());//+getImportantFieldsNames()
                 if (success)
                 {
                     MessageBox.Show("Успешный успех", "Ура!", MessageBoxButton.OK, MessageBoxImage.Information);

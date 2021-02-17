@@ -27,7 +27,8 @@ namespace Dnevnik
     public partial class MainWindow : Window
     {
         ObservableCollection<DocumentView> _data;
-        Database db;        
+        //Database db;
+        EntitiesViewModel entityViewModel;
         DocumentViewModel docViewModel;
         private static string _userLogin;
         //ApplicationContext db = new ApplicationContext();
@@ -41,11 +42,10 @@ namespace Dnevnik
             InitializeComponent();
             _userLogin = userLogin;
 
-           // entityViewModel = new EntitiesViewModel(userLogin);
+            entityViewModel = new EntitiesViewModel(userLogin);
             UserLogin.Header = $"Привет, {userLogin}!";
-                
-            db = new Database(userLogin);
-            Entities = GetEntities().ToList();
+
+            Entities = entityViewModel.GetEntities().ToList();
             this.entitiesListBox.ItemsSource = Entities;
 
             //---------------
@@ -84,24 +84,13 @@ namespace Dnevnik
 
         }
 
-        public IEnumerable<Entity> GetEntities()
-        {
-            foreach (string entity in db.GetEntities())
-            {
-                yield return new Entity()
-                {
-                    EntityName = entity
-                };
-            }
-        }
-
         private void CreateTypeButton_Click(object sender, RoutedEventArgs e)
         {
             CreateEntityWindow createEntityWindow = new CreateEntityWindow(_userLogin);
             createEntityWindow.Owner = this;
 
             createEntityWindow.ShowDialog();
-            Entities = GetEntities().ToList();
+            Entities = entityViewModel.GetEntities().ToList();
             this.entitiesListBox.ItemsSource = Entities;
         }
 

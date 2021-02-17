@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,20 +20,26 @@ namespace Dnevnik
     public partial class CreateInstanceOfEntityWindow : Window
     {   
         Database db;
+        DocumentViewModel docViewModel;
         private string _tableTitle;
-        public bool IsTextBoxReadOnly { get; set; }
         public CreateInstanceOfEntityWindow(string tableTitle, string userLogin)
         {
             InitializeComponent();
-            DataContext = new EntityFieldsViewModel(userLogin, tableTitle);
-            _tableTitle = tableTitle;           
+            db = new Database(userLogin);
+            docViewModel = new DocumentViewModel(userLogin);
+            _tableTitle = tableTitle;
+            var data = docViewModel.GetFieldsList(tableTitle);
+            this.FieldsList.ItemsSource = data;
         }
 
         public CreateInstanceOfEntityWindow(DocumentView document, string userLogin)
         {
             InitializeComponent();
-            DataContext = new EntityFieldsViewModel(userLogin, document);
-            _tableTitle = document.EntityName;                       
+            db = new Database(userLogin);
+            docViewModel = new DocumentViewModel(userLogin);
+            _tableTitle = document.EntityName;
+            var data = docViewModel.GetDocumentByID(document.EntityName, document.DocumentID);
+            this.FieldsList.ItemsSource = data;
         }
 
         private void Accept_Click(object sender, RoutedEventArgs e)
@@ -52,7 +57,5 @@ namespace Dnevnik
         {
             this.Close();
         }
-
-       
     }
 }

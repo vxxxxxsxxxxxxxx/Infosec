@@ -17,13 +17,6 @@ namespace Dnevnik
             EntityName = entityName;
             AnnotationFields = annotationFields;
         }
-
-        public DocumentView(int id, string entityName)
-        {
-            DocumentID = id;
-            EntityName = entityName;
-            AnnotationFields = null;
-        }
         private int _documentID;
         private string _entityName;
         private string _annotationFields;

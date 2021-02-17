@@ -1,5 +1,4 @@
-﻿using Dnevnik.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace Dnevnik
 {
-    public class NewEntityField
+    public class NewEntity
     {
         [DisplayName("Название")]        
-        public string Name { get; set; }
-
+        public string FieldName { get; set; }
+        //[DisplayName("Длина")]
+        //public int Length { get; set; } = 255;
         [DisplayName("Важно/Неважно")]
         public bool Importance { get; set; }
-
-        [DisplayName("Ссылка")]
-        public bool IsLink { get; set; }
     }
 }

@@ -109,8 +109,10 @@
         <StackPanel Grid.Column="3" Grid.ColumnSpan="4" Grid.Row="4" Orientation="Horizontal" Margin="0,5,0,0" HorizontalAlignment="Center">
             <!--<Button x:Name="add_doc_button" Content="Добавить" Padding="20,0" Margin="20,0" Background="#FF00FF8B" />-->
             <Button Content="Добавить" Padding="20,0" Margin="10,0" Width="100" Command="{Binding AddCommand}" Background="#FF00D11C"/>
-            <Button Content="Изменить" Padding="10,0" Margin="20,0" Width="100" Command="{Binding EditCommand}" />
-            <Button Content="Удалить" Padding="10,0" Margin="20,0" Width="100" Command="{Binding DeleteCommand}" Background="#FFFF6F4F"  />
+            <Button Content="Изменить" Padding="10,0" Margin="20,0" Width="100" Command="{Binding EditCommand}"
+                    CommandParameter="{Binding ElementName=instancesList, Path=SelectedDocument}" Background="#FF96CFFF"  />
+            <Button Content="Удалить" Padding="10,0" Margin="20,0" Width="100" Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding ElementName=instancesList, Path=SelectedDocument}" Background="#FFFF6F4F"  />
         </StackPanel>
         <!--Footer-->
         <Button x:Name="createTypeButton" Grid.Column="1" Grid.Row="4" 

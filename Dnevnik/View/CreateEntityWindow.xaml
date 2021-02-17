@@ -5,44 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dnevnik"
         mc:Ignorable="d"
-        Title="Создавть новую сущность" Margin="10" Height="472.636" Width="720" WindowStartupLocation="CenterScreen">
+        Title="Создавть новую сущность" Height="449.969" Width="331.867" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
-
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" /><!--1-->
+            <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-            <!--7-->
+            <RowDefinition Height="auto"/><!--7-->
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Введите названия полей:"/>
+        <Label x:Name="WarningLabel" Grid.Row="0" Grid.Column="1" FontSize="14" Foreground="#FFFF1700" FontFamily="Calibri"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,0,5" Text="Введите название сущности:"/>
+        <TextBox x:Name="EntityNameTextBox" Grid.Row="1" Grid.Column="1" Margin="166,0,0,5"  ></TextBox>
 
-        <Label Margin="10"  Grid.Row="0"
-               x:Name="WarningLabel"  Grid.Column="1"
-               FontSize="14" Foreground="#FFFF1700" FontFamily="Calibri" 
-               Grid.ColumnSpan="2"/>
-        <TextBlock Margin="10"  Grid.Row="1" Text="Введите название сущности:" Grid.ColumnSpan="1"/>
-        <TextBox Margin="10"  Grid.Row="1" 
-                 x:Name="EntityNameTextBox" Grid.Column="1" Grid.ColumnSpan="2"  />
+        <DataGrid x:Name="newEntityFieldsGrid" Grid.Row="3" Grid.Column="1"  AutoGenerateColumns="True" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" 
+          ItemsSource="{Binding Entity}" Margin="0,5">
+        </DataGrid>
 
+        <!--<DataGrid x:Name="phonesGrid" AutoGenerateColumns="False" HorizontalGridLinesBrush="DarkGray"
+                  AlternatingRowBackground="White">
 
-        <TextBlock Margin="10"  Grid.Row="2" 
-                   Text="Введите названия полей:" 
-                   Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-        <DataGrid Grid.Row="3" ColumnWidth="*"
-                  x:Name="newEntityFieldsGrid" 
-                  AutoGenerateColumns="True" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" 
-          ItemsSource="{Binding Entity}" Margin="10,50,10.333,5" Grid.ColumnSpan="3"/>
+            <DataGrid.Items>
+                <local:Phone Title="iPhone 6S" Company="Apple" Price="54990" />
+                <local:Phone Title="Lumia 950" Company="Microsoft" Price="39990" />
+                <local:Phone Title="Nexus 5X" Company="Google" Price="29990" />
+            </DataGrid.Items>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Модель" Binding="{Binding Path=Title}" Width="90" />
+                <DataGridHyperlinkColumn Header="Компания" Binding="{Binding Path=Company}" Width="80" />
+                <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price}" Width="50" />
+            </DataGrid.Columns>
+        </DataGrid>-->
 
-        <Button x:Name="CreateEntity" Grid.Row="4" Content="Создать сущность" 
-                Margin="10" Padding="5" Click="CreateEntity_Click" Grid.ColumnSpan="3" />
+        <Button x:Name="CreateEntity" Grid.Row="4" Grid.Column="1" Content="Создать сущность" 
+                Margin="0, 5" Padding="5" Click="CreateEntity_Click" />
 
     </Grid>
 </Window>

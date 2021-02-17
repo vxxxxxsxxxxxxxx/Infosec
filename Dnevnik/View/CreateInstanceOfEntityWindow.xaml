@@ -5,17 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dnevnik"
         mc:Ignorable="d"
-        Title="Документ" Height="511.672" Width="800" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
-        <local:BoolenToVisibilityInverseConverter x:Key="_Converter"/>
-    </Window.Resources>
+        Title="Документ" Height="483.943" Width="318.46" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="400" />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -25,12 +22,19 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <ListView Margin="10"  x:Name="FieldsList" ItemsSource="{Binding Path=Fields}"
-                  Grid.Row="1" Grid.Column="0" 
-                  Grid.ColumnSpan="3" SelectedItem="{Binding SelectedField}" >
+        <!--<DataGrid x:Name="documentDataGrid" Grid.Row="1" Grid.Column="1" 
+                  Grid.ColumnSpan="3">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Название поля" />
+                <DataGridTextColumn Header="Значение" />
+            </DataGrid.Columns>
+        </DataGrid>-->
+
+        <ListView x:Name="FieldsList"  Grid.Row="1" Grid.Column="1" 
+                  Grid.ColumnSpan="3"  >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="FieldsNames" Header="Наименование поля " Width="200" >
+                    <GridViewColumn x:Name="FieldsNames" Header="Наименование поля " Width="130">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Title}" TextWrapping="Wrap" Margin="2" 
@@ -38,57 +42,24 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn x:Name="FieldsValues" Header="Значение поля" Width="400" >
+                    <GridViewColumn x:Name="FieldsValues" Header="Значение поля" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal"  Margin="6,2,6,2">
-
-                                <TextBox x:Name="FValue"
-                                         IsEnabled="{Binding Path=IsOpenLookupButtonsVisible, 
-                                    Converter={StaticResource _Converter}}"
-                                         Text="{Binding Path=FValue}"
-                                         TextWrapping="Wrap" Margin="2" Padding="3" MinWidth="180"
+                                <TextBox  Text="{Binding Path=FValue}" TextWrapping="Wrap" Margin="2" Padding="3" MinWidth="80"
                                             Foreground="Black" ></TextBox>
-                                    <Button  Margin="2" Visibility="{Binding Path=IsOpenLookupButtonsVisible, 
-                                    Converter={StaticResource BoolToVisConverter} }"  Content="Choose linked row" 
-                                   Command="{Binding 
-                                   Path=DataContext.OpenChooseLinkedTableWindowCommand, 
-                                   RelativeSource=
-                                   {RelativeSource FindAncestor, 
-                                   AncestorType={x:Type ItemsControl}}}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                            
-                        </GridViewColumn.CellTemplate>
-
-                    </GridViewColumn>
-                    <GridViewColumn x:Name="Actions"  Header="Действия"  Width="200"  >
-                        <GridViewColumn.CellTemplate >
-                            <DataTemplate>
-                                <StackPanel  Margin="6,2,6,2">
-                                    <Button  Visibility="{Binding Path=IsOpenLinkedRowButtonVisible, 
-                                    Converter={StaticResource BoolToVisConverter} }"  Content="Open linked table" 
-                                   Command="{Binding 
-                                   Path=DataContext.OpenLinkedTableCommand, 
-                                   RelativeSource=
-                                   {RelativeSource FindAncestor, 
-                                   AncestorType={x:Type ItemsControl}}}"/>
-                                </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
-
         </ListView>
 
-        <Button Visibility="{Binding Path=IsBackButtonVisible, 
-                                    Converter={StaticResource _Converter}}"  Margin="10" x:Name="Accept" Grid.Row="3" Grid.Column="0" IsDefault="True" 
+        <!--<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" 
+                    Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="4">-->
+        <Button x:Name="Accept" Grid.Row="3" Grid.Column="1" IsDefault="True" 
                 Click="Accept_Click">OK</Button>
-        <Button Margin="10"  x:Name="Cancel" IsCancel="True" Grid.Row="3" Grid.Column="1" Click="Cancel_Click">Отмена</Button>
-        <Button  Visibility="{Binding Path=IsBackButtonVisible, 
-                                    Converter={StaticResource BoolToVisConverter}}" 
-                 Command="{Binding Path=ReturnToParenTableCommand}" Content="Вернуться назад" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="173" Height="21"/>
+        <Button x:Name="Cancel" IsCancel="True" Grid.Row="3" Grid.Column="3" Click="Cancel_Click">Отмена</Button>
+        <!--</StackPanel>-->
 
 
     </Grid>

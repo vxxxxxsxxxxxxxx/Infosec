@@ -19,11 +19,11 @@ namespace Dnevnik
         RelayCommand addCommand;
         RelayCommand editCommand;
         RelayCommand deleteCommand;
-        RelayCommand openLinkCommand;
         IEnumerable<Document> documents;
         private DocumentView selectedDocument;
         private string _userLogin;
-        private string _selectedEntity;        
+        private string _selectedEntity;
+        EntitiesViewModel entitiesViewModel;
         private ObservableCollection<DocumentView> _data;
         MainWindow _mainWindow;
 
@@ -31,7 +31,8 @@ namespace Dnevnik
         {
             db = new Database(userLogin);
             _userLogin = userLogin;
-            _selectedEntity = selectedEntity;            
+            _selectedEntity = selectedEntity;
+            entitiesViewModel = new EntitiesViewModel(userLogin);
             _mainWindow = mainWindow;
         }
 
@@ -113,7 +114,51 @@ namespace Dnevnik
             return list;
         }
 
+        /// <summary>
+        /// converts Documents ordered dictionary to the List of Fields in order to show it for creating/editing doc.
+        /// </summary>
+        /// <param name="tableTitle">name of the table = Entity</param>
+        /// <returns></returns>
+        public List<Field> GetFieldsList(string tableTitle)
+        {
+            List<Field> listOfDocs = new List<Field>();            
+            var docs = db.GetFieldNameListOfEntity(tableTitle);
+            List<string> lis = docs.ToList();
+
+            for(int i=1; i < docs.Count(); i++)
+            {
+                Field field = new Field(lis[i]);
+                listOfDocs.Add(field);
+            }
+
+            return listOfDocs;
+        }
         
+        public List<Field> GetDocumentByID(string tableTitle, int id)
+        {
+            List<Field> listOfFieldsValues = new List<Field>();
+            var document = db.GetDocumentByID(tableTitle, id);
+            Field doc_field;
+            List<string> values = new List<string>();
+            foreach (DictionaryEntry field in document)
+            {
+                values = field.Value as List<string>;
+                for (int i = 0; i < values.Count(); i++)
+                {
+                    if (field.Key.ToString() == "id")
+                    {
+                        //documentsId[i] = Convert.ToInt32(values[i]);
+                        continue;
+                    }
+                    //documentsAnnotationaField[i] = documentsAnnotationaField[i] + String.Format("{0}: {1}. ", doc.Key, values[i]);
+
+                    doc_field = new Field(field.Key.ToString(), values[i].ToString());
+                    listOfFieldsValues.Add(doc_field);
+                }
+                
+            }
+            return listOfFieldsValues;
+        }
         // команда добавления
         public RelayCommand AddCommand
         {
@@ -129,9 +174,7 @@ namespace Dnevnik
 
                           if (createInstance.ShowDialog() == true)
                           {
-                              createInstance.IsEnabled = false;
-                              List<Field> list = (createInstance.DataContext as EntityFieldsViewModel).Fields.ToList();
-                              var linkFields = (createInstance.DataContext as EntityFieldsViewModel).parentLinkFieldIds;
+                              List<Field> list = createInstance.FieldsList.ItemsSource as List<Field>;
                               OrderedDictionary dic = new OrderedDictionary();
 
                               foreach (Field field in list)
@@ -140,13 +183,10 @@ namespace Dnevnik
                                   //    throw new Exception("В качестве зна");
                                   dic.Add(field.Title, field.FValue);
                               }
-                              foreach (string key in linkFields.Keys)
-                              {
-                                  dic.Add(key, linkFields[key]);
-                              }
                               Document document = new Document(dic);
 
                               db.AddDocument(_selectedEntity, document);
+
                           }
                           _mainWindow.instancesListBox.ItemsSource = GetDocumentsForMainWindow(_selectedEntity);
                       }
@@ -175,17 +215,12 @@ namespace Dnevnik
 
                       if (createInstance.ShowDialog() == true)
                       {
-                          List<Field> fields = (createInstance.DataContext as EntityFieldsViewModel).Fields.ToList();
-                          var linkFields = (createInstance.DataContext as EntityFieldsViewModel).parentLinkFieldIds;
+                          List<Field> list = createInstance.FieldsList.ItemsSource as List<Field>;
                           OrderedDictionary dic = new OrderedDictionary();
 
-                          foreach (Field field in fields)
+                          foreach (Field field in list)
                           {
                               dic.Add(field.Title, field.FValue);
-                          }
-                          foreach (string key in linkFields.Keys)
-                          {                              
-                              dic.Add(key, linkFields[key]);
                           }
                           Document document = new Document(dic);
 
@@ -212,7 +247,6 @@ namespace Dnevnik
                   }));
             }
         }
-        
 
 
         public event PropertyChangedEventHandler PropertyChanged;
