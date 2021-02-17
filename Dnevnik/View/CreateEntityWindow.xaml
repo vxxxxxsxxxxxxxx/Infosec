@@ -1,0 +1,48 @@
+﻿<Window x:Class="Dnevnik.CreateEntityWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dnevnik"
+        mc:Ignorable="d"
+        Title="Создавть новую сущность" Margin="10" Height="472.636" Width="720" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <!--7-->
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+
+        <Label Margin="10"  Grid.Row="0"
+               x:Name="WarningLabel"  Grid.Column="1"
+               FontSize="14" Foreground="#FFFF1700" FontFamily="Calibri" 
+               Grid.ColumnSpan="2"/>
+        <TextBlock Margin="10"  Grid.Row="1" Text="Введите название сущности:" Grid.ColumnSpan="1"/>
+        <TextBox Margin="10"  Grid.Row="1" 
+                 x:Name="EntityNameTextBox" Grid.Column="1" Grid.ColumnSpan="2"  />
+
+
+        <TextBlock Margin="10"  Grid.Row="2" 
+                   Text="Введите названия полей:" 
+                   Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+        <DataGrid Grid.Row="3" ColumnWidth="*"
+                  x:Name="newEntityFieldsGrid" 
+                  AutoGenerateColumns="True" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" 
+          ItemsSource="{Binding Entity}" Margin="10,50,10.333,5" Grid.ColumnSpan="3"/>
+
+        <Button x:Name="CreateEntity" Grid.Row="4" Content="Создать сущность" 
+                Margin="10" Padding="5" Click="CreateEntity_Click" Grid.ColumnSpan="3" />
+
+    </Grid>
+</Window>
